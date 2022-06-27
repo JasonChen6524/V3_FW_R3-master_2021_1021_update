@@ -164,7 +164,7 @@ static int sensor_sample_sz[SS_MAX_SUPPORTED_SENSOR_NUM]  = {0};
 static int algo_sample_sz[SS_MAX_SUPPORTED_ALGO_NUM]      = {0};
 
 /* Mode to control sesnor hub resets. ie via GPIO based hard reset or Command based soft reset*/
-static uint8_t ebl_mode = EBL_GPIO_TRIGGER_MODE;
+//static uint8_t ebl_mode = EBL_GPIO_TRIGGER_MODE;                                                 // Commented by Jason Chen, 2022.06.22
 
 
 /* desc  :
@@ -522,7 +522,7 @@ int stay_in_bootloader(void)
 	return status;
 }
 
-
+#if 0
 static void cfg_mfio(uint8_t dir)
 {
 	if (dir == PIN_INPUT) {
@@ -533,7 +533,8 @@ static void cfg_mfio(uint8_t dir)
 		mfio_pin_output();
 	}
 }
-
+#endif
+#if 0
 int sh_reset_to_main_app(void)
 {
 	int status = -1;
@@ -569,7 +570,7 @@ int sh_reset_to_main_app(void)
 	return status;
 
 }
-
+#endif
 /*
  * desc:
  *    function to init sensor comm interface and get data format.

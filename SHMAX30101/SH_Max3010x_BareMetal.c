@@ -132,7 +132,8 @@ typedef struct {
 
 /*DEMO RELATED DATA TO REPORT RESULTS FROM MAIN APPLICATION*/
 uint8_t  bptMesurementProgress       = 0;
-
+uint8_t  bptMesurementProgressLast   = 0;                                                           //Added by Jason Chen, 2022.06.22
+uint8_t  bpt_status                  = 0;                                                           //Added by Jason Chen, 2022.06.22
 static uint8_t is_agc_usage_required = ENABLE_AGC_USAGE;
 
 // Max30101 Default Callbacks
@@ -150,7 +151,7 @@ static void max30101_data_rx(uint8_t* data_ptr) {
 #endif
 }
 
-uint16_t re_trigger = 0;
+//uint16_t re_trigger = 0;
 static void bpt_data_rx(uint8_t* data_ptr) {
 
 	//See API doc for data format
@@ -205,6 +206,7 @@ static void bpt_data_rx(uint8_t* data_ptr) {
 	}
 #endif
 	bptMesurementProgress    = sample.prog;
+	bpt_status               = sample.status;                                                                                  //Added by Jason Chen, 2022.06.22
 #if 0
   //if((sample.status == 1)&&(sample.prog == 100))
 	if(sample.prog == 100)
@@ -951,7 +953,7 @@ int SH_Max3010x_get_bpt_calibration(const char *null_arg){
     	printLog("\r\n VALUES of CALIBRATION= ");
     	unsigned int idx = 1; /*skip status byte*/
     	while( idx < sizeof(cal_result) ){
-    		printLog("%02X", cal_result[idx+1]);                                               // %2X ??
+    		//printLog("%02X", cal_result[idx+1]);                                               // %2X ??
     		idx++;
     	}
 

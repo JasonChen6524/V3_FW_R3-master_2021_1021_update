@@ -193,34 +193,34 @@ extern struct v3_info v3info;
 
 struct v3_status	// rearrange and pack later adding to the end for now
 {
-   U16 magic;  // key number
-   U8 cmd;     // message command - definition of payload data
-   U8 len;     // total message payload is V3_MAX_SIZE-V3_HDR_SIZE
-   U16 handle; // rolling 16 bit message handle
-   U16 sum;    // lower 16 bits of sum of entire message packet with sum = 0;
-   U32 time;  // report device time
-   U16 inithandle; // handle of the init
-   U8 batsoc;   // 8 bit state of charge value read from PMIC fuel Gauge - 0 to 100
-   U8 statusb;	// PMIC StatusB register
-   U16 batvcell;// 16 bit battery voltage value read from PMIC fuel Gauge, 1 LSb = 78.125uV
-   U16 temp0;	// Tethered sensor 0 (Left) = deg C *200
-   U16 temp1;	// Tethered sensor 1 (Right) = deg C *200
-   U16 temp2;	// Alternate TEMP sensor TBD
-   U16 temp3;
-   U8 error;   // run time error codes
-   U8 state;  // Treatment state V3 is in
-   U8 spp;	// BLE connection state
-   U8 conn;   // connection bit field for various cables
-   U16 crate;	//  Rate of battery charge or discharge, 1 LSb - 0.208% per hour
-   U8 statusa;	// PMIC StatusA register  
-   U8 bio_status;
-   U8 bio_sys_bp;
-   U8 bio_dia_bp;
-   U8 bio_prog;
-   U16 bio_hr; 
-   U16 bio_spo2;
-   U8 bio_state;
-   U16 bio_red;  // RED LED 16 bit scalar from max30101_data_rx() (finger on detector)
+   U16 magic;         // 0-2key number
+   U8 cmd;            // 2-message command - definition of payload data
+   U8 len;            // 3-total message payload is V3_MAX_SIZE-V3_HDR_SIZE
+   U16 handle;        // 4-rolling 16 bit message handle
+   U16 sum;           // 6-lower 16 bits of sum of entire message packet with sum = 0;
+   U32 time;          // 8-report device time
+   U16 inithandle;    // 12-handle of the init
+   U8 batsoc;         // 14-8 bit state of charge value read from PMIC fuel Gauge - 0 to 100
+   U8 statusb;        // 15-PMIC StatusB register
+   U16 batvcell;      // 16-16 bit battery voltage value read from PMIC fuel Gauge, 1 LSb = 78.125uV
+   U16 temp0;         // 18-Tethered sensor 0 (Left) = deg C *200
+   U16 temp1;         // 20-Tethered sensor 1 (Right) = deg C *200
+   U16 temp2;         // 22-Alternate TEMP sensor TBD
+   U16 temp3;         // 24
+   U8 error;          // 26-run time error codes
+   U8 state;          // 27-Treatment state V3 is in
+   U8 spp;            // 28-BLE connection state
+   U8 conn;           // 29-connection bit field for various cables
+   U16 crate;         // 30-Rate of battery charge or discharge, 1 LSb - 0.208% per hour
+   U8 statusa;        // 32-PMIC StatusA register
+   U8 bio_status;     // 33
+   U8 bio_sys_bp;     // 34
+   U8 bio_dia_bp;     // 35
+   U8 bio_prog;       // 36
+   U16 bio_hr;        // 37
+   U16 bio_spo2;      // 39
+   U8 bio_state;      // 41
+   U16 bio_red;       // 42-RED LED 16 bit scalar from max30101_data_rx() (finger on detector)
 };
 
 extern struct v3_status v3status;

@@ -99,7 +99,7 @@ int hostMode = HOSTMODEAPPLICATION;
 demo_appstate_t appState  = ST_COMMAND_MODE;
 //static demo_appstate_t appPrevState;     Jason
 
-extern uint8_t  bptMesurementProgress;
+//extern uint8_t  bptMesurementProgress;
 
 static struct{
 	uint32_t user_med;
@@ -283,15 +283,35 @@ void bpt_main(void)
 					}
 					else
 					{
-						appState =  ST_EXAMPLEUSER_CALIBRATION_WAIT_COMPLETE;
+						if((bpt_status == 4)&&(count_tick > 15))                                                               //Added by Jason Chen, 2022.06.22
+						{                                                                                                      //Added by Jason Chen, 2022.06.22
+							appState =  ST_EXAMPLEUSER_TIMEOUT;                                                                //Added by Jason Chen, 2022.06.22
+							measurement_count++;                                                                               //Added by Jason Chen, 2022.06.22
+						}                                                                                                      //Added by Jason Chen, 2022.06.22
+						else
+						{
+							if(bptMesurementProgress > bptMesurementProgressLast)                                              //Added by Jason Chen, 2022.06.22
+							{                                                                                                  //Added by Jason Chen, 2022.06.22
+								calibrationTimer_reset();							                                           //Added by Jason Chen, 2022.06.22
+							}                                                                                                  //Added by Jason Chen, 2022.06.22
+							appState =  ST_EXAMPLEUSER_CALIBRATION_WAIT_COMPLETE;
+						}
 					}
 				}
 				else
 				{
-					appState =  ST_EXAMPLEUSER_TIMEOUT;
-					measurement_count++;
-					printLog("TIMEOUT CONDITION OCCURED FOR EXAMPLE MEASUREMENT = %d. \r\n", measurement_count);
+					if(bptMesurementProgress > bptMesurementProgressLast)                                                      //Added by Jason Chen, 2022.06.22
+					{                                                                                                          //Added by Jason Chen, 2022.06.22
+						calibrationTimer_reset();							                                                   //Added by Jason Chen, 2022.06.22
+					}                                                                                                          //Added by Jason Chen, 2022.06.22
+					else
+					{
+						appState =  ST_EXAMPLEUSER_TIMEOUT;
+						measurement_count++;
+						printLog("TIMEOUT CONDITION OCCURED FOR EXAMPLE MEASUREMENT = %d. \r\n", measurement_count);
+					}
 				}
+				bptMesurementProgressLast = bptMesurementProgress;                                                             //Added by Jason Chen, 2022.06.22
 			}
 			break;
 
@@ -513,16 +533,29 @@ void bpt_main(void)
 					uint32_t count_tick = calibrationTimer_read();
 					if( count_tick > 60 )
 					{
-						appState =  ST_EXAMPLEUSER_ESTIMATION_RE_MEASUREMENT;                           //ST_EXAMPLEUSER_TIMEOUTaaaa;
-						break;
+						if(bptMesurementProgress > bptMesurementProgressLast)                                                  //Added by Jason Chen, 2022.06.22
+						{                                                                                                      //Added by Jason Chen, 2022.06.22
+							calibrationTimer_reset();							                                               //Added by Jason Chen, 2022.06.22
+						}                                                                                                      //Added by Jason Chen, 2022.06.22
+						else                                                                                                   //Added by Jason Chen, 2022.06.22
+						{
+							appState =  ST_EXAMPLEUSER_ESTIMATION_RE_MEASUREMENT;                                              //ST_EXAMPLEUSER_TIMEOUTaaaa;
+							break;
+						}
 					}
 					else
 					{
-
+						if((bpt_status == 4)&&(count_tick > 15))                                                               //Added by Jason Chen, 2022.06.22
+						{                                                                                                      //Added by Jason Chen, 2022.06.22
+							appState =  ST_EXAMPLEUSER_ESTIMATION_RE_MEASUREMENT;                                              //Added by Jason Chen, 2022.06.22
+							measurement_count = 0;                                                                             //Added by Jason Chen, 2022.06.22
+							break;                                                                                             //Added by Jason Chen, 2022.06.22
+						}                                                                                                      //Added by Jason Chen, 2022.06.22
 					}
 					appState = ST_EXAMPLEUSER_ESTIMATION_MEASUREMENT;
 				}
 				//appState = ST_EXAMPLEUSER_ESTIMATION_MEASUREMENT;
+				bptMesurementProgressLast = bptMesurementProgress;                                                             //Added by Jason Chen, 2022.06.22
 			}
 			break;
 
@@ -578,7 +611,7 @@ void bpt_main(void)
 				else if(state_flag == 6)
 					DELAY_COUNT = 2;
 				else
-					DELAY_COUNT = 10;
+					DELAY_COUNT = 20;                                                                                          // Changed from 10 to 20, by Jason Chen, 2022.06.22
 				if(delay_ms_count > DELAY_COUNT)
 				{
 					delay_ms_count = 0;

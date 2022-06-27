@@ -317,12 +317,12 @@ void SH_Max3010x_data_report_execute02(void);
 int ssx_set_algo_cfg(int algo_idx, int cfg_idx, uint8_t *cfg, int cfg_sz);
 
 
-
 //#define NUMCMDS3010xBPT (21)
 
 //extern const cmd_interface_tp CMDTABLE3010xBPT[];
 
 /*DEMO RELATED DATA TO REPORT RESULTS FROM MAIN APPLICATION*/
 extern uint8_t  bptMesurementProgress    ;
-
+extern uint8_t  bptMesurementProgressLast;                                        //Added by Jason Chen, 2022.06.22
+extern uint8_t  bpt_status;                                                       //Added by Jason Chen, 2022.06.22
 #endif
