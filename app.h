@@ -19,6 +19,8 @@
 
 #include "gecko_configuration.h"
 
+#define WATCHDOG_ENABLE              1                                                                                         //Added by Jason Chen, 2022.06.29
+
 /* DEBUG_LEVEL is used to enable/disable debug prints. Set DEBUG_LEVEL to 1 to enable debug prints */
 #define DEBUG_LEVEL 1
 
@@ -39,6 +41,10 @@
 #define flushLog()
 #define printLog(...)
 #endif
+
+#if WATCHDOG_ENABLE                                                                                                            //Added by Jason Chen, 2022.06.29
+void initWDOG(void);                                                                                                           //Added by Jason Chen, 2022.06.29
+#endif                                                                                                                         //Added by Jason Chen, 2022.06.29
 
 /* Main application */
 void appMain(gecko_configuration_t *pconfig);

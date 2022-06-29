@@ -20,8 +20,8 @@
 #include "native_gecko.h"
 #include "gatt_db.h"
 
-
 #include <stdio.h>
+#include "em_wdog.h"                                                                                                           //Added by Jason Chen, 2022.06.29
 #include "retargetswo.h"
 #include "sleep.h"
 #include "spp_utils.h"
@@ -171,6 +171,9 @@ U8 sectic = TIC_TIMER_PERSEC;
     struct gecko_cmd_packet* evt;
 
    //bpt_main();   // For Bio-Sensor estimation -
+#if WATCHDOG_ENABLE
+    WDOGn_Feed(DEFAULT_WDOG);                                                     // WDOG_Feed();                              //Added by Jason Chen, 2022.06.29
+#endif
 
     if(_main_state == STATE_SPP_MODE) {
     	/* If SPP data mode is active, use non-blocking gecko_peek_event() */
