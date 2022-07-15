@@ -36,10 +36,10 @@ extern void bpt_main_reset(void); //
 #define S6 6
 #define S7 7
 
-#define SEN_INIT 10
-#define SEN_WAIT 10  // tics to wait for retry if temp sensor not seen
-#define SEN_CHK  10  // tics to check if sensor is still there
-#define SEN_RETRY 10 // tics to retry if sensor present
+#define SEN_INIT  10
+#define SEN_WAIT  10    // tics to wait for retry if temp sensor not seen
+#define SEN_CHK   10    // tics to check if sensor is still there
+#define SEN_RETRY 10    // tics to retry if sensor present
 
 #define MAXTRIES 20000  // for I2C read and write checking if HW stuck
 
@@ -57,51 +57,51 @@ void I2C_Sensors(void)
    
    switch(state)
    {
-      case S0: // entered from reset 
+      case S0:                                                                 // entered from reset
          ExpSetPins(EN5V_HIGH|RESET_LOW|MFIO_HIGH);  //disable 5V      
          state = S1;
          initI2S(1);
       break;
 
      
-      case S1:  // assume one tick time for temp sensor init
+      case S1:                                                                 // assume one tick time for temp sensor init
             count = 0;
             state = S3;
-            if (SensorUnplug(MAX30208A_ADR))  // sensor present?
+            if (SensorUnplug(MAX30208A_ADR))                                   // sensor present?
             {
                state = S2;  // sensor not seen
-               v3status.conn |= v3PINSBIO;  // set bio status bit - SET = disconnect
-               if (sineactive) state = S6;  // Leave 5V enabled, but bio not present
+               v3status.conn |= v3PINSBIO;                                     // set bio status bit - SET = disconnect
+               if (sineactive) state = S6;                                     // Leave 5V enabled, but bio not present
             }
       break;
       
       case S2:
-         ExpSetPins(EN5V_LOW|RESET_LOW|MFIO_HIGH);  //disable 5V
-         state = S5;  // wait to retry
+         ExpSetPins(EN5V_LOW|RESET_LOW|MFIO_HIGH);                             //disable 5V
+         state = S5;                                                           // wait to retry
       break;
 
-      case S3:  //Delay to allow biosensor to init, assume one tick
+      case S3:                                                                 //Delay to allow biosensor to init, assume one tick
          state = S4;
-         ExpSetPins(EN5V_HIGH|RESET_HIGH|MFIO_HIGH);  //enable 5V, remove reset
+         ExpSetPins(EN5V_HIGH|RESET_HIGH|MFIO_HIGH);                           //enable 5V, remove reset
       break;
 
       case S4:
       // init biosensor
          bpt_main_reset();
-         v3status.conn &= ~v3PINSBIO;  // clear bio status bit - Clear = present
+         v3status.conn &= ~v3PINSBIO;                                          // clear bio status bit - Clear = present
          state = S5;
       break;
 
 
-      case S5:  //  stay here for awhile then check again for presence.
+      case S5:                                                                 //  stay here for awhile then check again for presence.
          count++;
          if (count == SEN_CHK)
          {
             count = 0;
-            if (SensorUnplug(MAX30208A_ADR))  // sensor present?
+            if (SensorUnplug(MAX30208A_ADR))                                   // sensor present?
             {
-               v3status.conn |= v3PINSBIO;  // set bio status bit - SET = disconnect              
-               if (!sineactive) ExpSetPins(EN5V_LOW|RESET_LOW|MFIO_HIGH);  //disable 5V
+               v3status.conn |= v3PINSBIO;                                     // set bio status bit - SET = disconnect
+               if (!sineactive) ExpSetPins(EN5V_LOW|RESET_LOW|MFIO_HIGH);      //disable 5V
                state = S6;  // wait to retry
             } 
          }
@@ -111,14 +111,12 @@ void I2C_Sensors(void)
          count++;
          if (count == SEN_RETRY)
          {
-            ExpSetPins(EN5V_HIGH|RESET_LOW|MFIO_HIGH);  //enable 5V, pull reset
-            initI2S(1);  // Re set up the codec
-            state = S1;  // go to check temp sensor present
+            ExpSetPins(EN5V_HIGH|RESET_LOW|MFIO_HIGH);                         //enable 5V, pull reset
+            initI2S(1);                                                        // Re set up the codec
+            state = S1;                                                        // go to check temp sensor present
          }
       break;
-
    }
-   
 }
 
 
