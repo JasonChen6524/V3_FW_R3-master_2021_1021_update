@@ -297,8 +297,12 @@ typedef enum {
 	ST_EXAMPLEUSER_ESTIMATION_RE_STARTING03,                      // Added by Jason, 2021.03.04
 	ST_EXAMPLEUSER_TIMEOUT,
 	ST_EXAMPLEUSER_FAILURE,
-	ST_EXAMPLEUSER_DELAY_COUNT                                    // Jason
+	ST_EXAMPLEUSER_DELAY_COUNT,                                   // Jason
 
+	ST_EXAMPLEUSER_BIOSENSOR_RESET,                               // Added by Jason, 2022.07.22
+	ST_EXAMPLEUSER_BIOSENSOR_RESET02,                             // Added by Jason, 2022.07.22
+	ST_EXAMPLEUSER_BIOSENSOR_RESET03,                             // Added by Jason, 2022.07.22
+	ST_EXAMPLEUSER_CALIBRATION_RESULT,                            // Added by Jason, 2022.07.22
 }demo_appstate_t;
 
 extern demo_appstate_t appState;
@@ -890,6 +894,22 @@ extern volatile bool m_irq_received;                             //Added by Jaso
 extern int data_type;                                            //Added by Jason Chen2021.03.05
 void fifo_sample_size(int data_type_, int *sample_size);         //Added by Jason Chen2021.03.05
 
+#define CAL_DATA_SIZE_BYTES ((int) 512)
+struct BIO_SENSOR_SETTING{
+  //uint32_t user_med;
+  //uint32_t user_norest;
+	uint32_t date_time_calib_instant[2];
+  //uint32_t date_time_estim_instant[2];
+  //uint8_t user_sys_bp_initials[3];
+  //uint8_t user_dia_bp_initials[3];
+    uint8_t user_sys_dia_0_initials[3];
+  //uint8_t user_sys_dia_1_initials[3];
+  //uint8_t user_sys_dia_2_initials[3];
+	uint32_t general_const_spo2_coeffients[3];
+	uint8_t cal_data[CAL_DATA_SIZE_BYTES];
+};
+
+extern struct BIO_SENSOR_SETTING biosensor_setting;
 /*
 #ifdef __cplusplus
 }

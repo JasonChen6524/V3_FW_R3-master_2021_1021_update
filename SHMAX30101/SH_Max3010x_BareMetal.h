@@ -57,7 +57,7 @@
 #define BPT_CALIBRATION_PROCESSDONE_VAL ((int) 100)
 
 
- #define CAL_DATA_SIZE_BYTES ((int) 512)
+//#define CAL_DATA_SIZE_BYTES ((int) 512)
 
 #define STATUS_OFFSET_BYTE ((int) 1)
 

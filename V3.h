@@ -7,17 +7,17 @@
 #ifndef V3_H_
 #define V3_H_
 
-#define V3_FW_MAJOR 00                                                                             // Temporary version numbers for test (decimal)
+#define V3_FW_MAJOR 00                                                         // Temporary version numbers for test (decimal)
 #define V3_FW_MINOR 03
 
-#define V3_HDR_MAGIC 0xAA55                                                                        // token to start message
+#define V3_HDR_MAGIC  0xAA55                                                   // token to start message
 #define V3_HDR_MAGICL 0x55
 #define V3_HDR_MAGICH 0xAA
-#define V3_NO_HANDLE 0xFFFF                                                                        // token sent for message handle when there is no handle.
+#define V3_NO_HANDLE  0xFFFF                                                   // token sent for message handle when there is no handle.
 
-#define V3_AWAKE_TIME (60*5)                    // initial/ default seconds to report and store if no activity
-#define V3_OFF_TIME (10)                        // initial/ default seconds stay on without storing in flash
-#define V3_CHRG_PAUSE 30                        // number of seconds which charge connected can interrupt a treatment
+#define V3_AWAKE_TIME (60*5)                                                   // initial/ default seconds to report and store if no activity
+#define V3_OFF_TIME   (10)                                                     // initial/ default seconds stay on without storing in flash
+#define V3_CHRG_PAUSE 30                                                       // number of seconds which charge connected can interrupt a treatment
 
 extern void v3_init(void);
 extern U8 v3_XmitQ(U8 *buf, U8 n);
@@ -44,10 +44,10 @@ struct sin_osc
 extern struct sin_osc sinosc[4];
 
 extern U8 v3sense;         // sequenced durring current sensing
-#define V3SENSE_OFF 0x00
+#define V3SENSE_OFF   0x00
 #define V3SENSE_START 0xFF
-#define V3SENSE_RUN 0x80
-#define V3SENSE_TERM 0xF0  // end current sensing
+#define V3SENSE_RUN   0x80
+#define V3SENSE_TERM  0xF0  // end current sensing
 
 
 #define V3SENSE_INTEN 15   // initial intensity to use unless overwritten by app for current sense
